@@ -1,5 +1,6 @@
 # tango-code-challenge-carlos-zuniga
 
+Created using create-react-app.
 
 ## Installation
 
