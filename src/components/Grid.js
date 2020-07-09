@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { arrayToHash, transformHash } from "../utils";
 import Loader from "./Loader";
 
-const Grid = ({ data, errMsg, updateSpeed }) => {
+const Grid = ({ data, updateSpeed }) => {
   const { m, n, state } = data;
 
   const [animate, setAnimate] = useState(false);
@@ -76,7 +76,6 @@ const Grid = ({ data, errMsg, updateSpeed }) => {
 
 Grid.propTypes = {
   data: PropTypes.object,
-  errMsg: PropTypes.string,
   updateSpeed: PropTypes.number,
 };
 
