@@ -1,0 +1,18 @@
+@import "styles/buttons";
+@import "styles/grid";
+@import "styles/loader";
+@import "styles/vars";
+@import "styles/modal";
+
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: $theme-color;
+}
