@@ -72,7 +72,7 @@ const MainView = ({ data, updateSpeed }) => {
               >
                 {Object.keys(hash).length > 0 ? (
                   <Zoom in={true} mountOnEnter unmountOnExit>
-                    <Box width={1}>
+                    <Box width={1} maxWidth={500}>
                       {rows.map((row, ri) => {
                         return (
                           <Box
@@ -122,7 +122,7 @@ const MainView = ({ data, updateSpeed }) => {
             </Grid>
             <Grid item>
               <StyledButton
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 onClick={handleAnimation}
                 endIcon={animate ? <PauseRounded /> : <PlayArrowRounded />}
