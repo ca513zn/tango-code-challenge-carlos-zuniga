@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { arrayToHash, transformHash } from "../utils";
-import Loader from "./Loader";
+import StyledButton from "./common/StyledButton";
+import {
+  Dialog,
+  Grid,
+  DialogContent,
+  CardHeader,
+  Box,
+  CircularProgress,
+  Zoom,
+} from "@material-ui/core";
+import StyledAppBar from "./common/StyledAppBar";
+import { PauseRounded, PlayArrowRounded } from "@material-ui/icons";
 
-const Grid = ({ data, updateSpeed }) => {
+const MainView = ({ data, updateSpeed }) => {
   const { m, n, state } = data;
 
   const [animate, setAnimate] = useState(false);
@@ -36,47 +47,99 @@ const Grid = ({ data, updateSpeed }) => {
   });
 
   return (
-    <>
-      <div className="grid">
-        <div className="grid grid__container">
-          {Object.keys(hash).length > 0 ? (
-            <>
-              {rows.map((row, ri) => {
-                return (
-                  <div className="grid__row" key={"row" + ri}>
-                    {cols.map((column, ci) => {
-                      const val = hash[`${ri}-${ci}`];
-                      return (
-                        <div
-                          className={`grid__cell grid__cell--${val}`}
-                          key={`${ri}-${ci}`}
-                        >
-                          {" "}
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </>
-          ) : (
-            <Loader />
-          )}
-        </div>
-        <button className="btn" onClick={handleAnimation}>
-          {animate ? "Pause" : "Start"}
-        </button>
-        <div className="watermark">
-          Tango Coding Challenge - Candidate: Carlos Zuniga, 2020.
-        </div>
-      </div>
-    </>
+    <Dialog open={true} fullScreen>
+      <StyledAppBar>
+        <CardHeader
+          title="Tango Coding Challenge 2020"
+          titleTypographyProps={{ variant: "body1" }}
+          subheader="Carlos Zuniga"
+          subheaderTypographyProps={{
+            variant: "caption",
+            color: "textPrimary",
+          }}
+        />
+      </StyledAppBar>
+      <Box height="100vh" bgcolor="background.dark">
+        <DialogContent>
+          <Grid container spacing={1} justify="center">
+            <Grid item xs={12}>
+              <Box
+                height="288px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                width={1}
+              >
+                {Object.keys(hash).length > 0 ? (
+                  <Zoom in={true} mountOnEnter unmountOnExit>
+                    <Box width={1}>
+                      {rows.map((row, ri) => {
+                        return (
+                          <Box
+                            key={`row-${ri}`}
+                            display="flex"
+                            width={1}
+                            mt={0.5}
+                          >
+                            {cols.map((column, ci) => {
+                              const val = hash[`${ri}-${ci}`];
+                              const values = [
+                                {
+                                  val: 0,
+                                  label: "dead",
+                                },
+                                {
+                                  val: 1,
+                                  label: "sad",
+                                },
+                                {
+                                  val: 2,
+                                  label: "happy",
+                                },
+                              ];
+                              return (
+                                <Box
+                                  borderRadius={8}
+                                  key={`col-${ci}`}
+                                  width={1}
+                                  height="14px"
+                                  bgcolor={`primary.${values[val].label}`}
+                                  color={`primary.${values[val].label}`}
+                                >
+                                  {"-"}
+                                </Box>
+                              );
+                            })}
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  </Zoom>
+                ) : (
+                  <CircularProgress />
+                )}
+              </Box>
+            </Grid>
+            <Grid item>
+              <StyledButton
+                variant="outlined"
+                color="primary"
+                onClick={handleAnimation}
+                endIcon={animate ? <PauseRounded /> : <PlayArrowRounded />}
+              >
+                {animate ? "Pause" : "Play"}
+              </StyledButton>
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Box>
+    </Dialog>
   );
 };
 
-Grid.propTypes = {
+MainView.propTypes = {
   data: PropTypes.object,
   updateSpeed: PropTypes.number,
 };
 
-export default Grid;
+export default MainView;

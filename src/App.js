@@ -1,48 +1,40 @@
 import React, { useState, useEffect } from "react";
-import Grid from "./components/Grid";
-import "./App.scss";
+import MainView from "./components/Grid";
+import { data } from "./data";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { blue, green, grey } from "@material-ui/core/colors";
 
 const updateSpeed = 1000;
-const url = "https://api.jsonbin.io/b/5f03bbd4343d624b0780f9ff";
 
-
-//In order to trigger an error message, just edit the URL
-const errorMessage = "No data retrieved!";
-const modalInstructions = "(Click anywhere to remove this modal)";
+const theme = createMuiTheme({
+  palette: {
+    background: {
+      dark: grey[900],
+    },
+    primary: {
+      main: green[500],
+      dead: grey[800],
+      sad: blue[500],
+      happy: green[500],
+    },
+  },
+});
 
 const App = () => {
   const [state, setState] = useState({ m: 0, n: 0, state: [[]] });
-  const [error, setError] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      let response = await fetch(url);
-      let { data } = await response.json();
-      //TO-DO: Have modal slide out on close!
-      data === undefined ? setError(true) : setState(data);
+      setState(data);
     };
-
-    //******************************/
-    //Simply for decoration...
-    //This code can be removed!
     setTimeout(() => {
       fetchData();
     }, 1500);
-    //******************************/
   }, []);
 
-  const handleModalClose = () => {
-    setError(false);
-  };
   return (
-    <div className="App" onClick={handleModalClose}>
-      {error && (
-        <div className="modal">
-          {errorMessage}
-          <div className="modal__instructions">{modalInstructions}</div>
-        </div>
-      )}
-      <Grid data={state} updateSpeed={updateSpeed} />
-    </div>
+    <ThemeProvider theme={theme}>
+      <MainView data={state} updateSpeed={updateSpeed} />
+    </ThemeProvider>
   );
 };
 
